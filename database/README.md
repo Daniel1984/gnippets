@@ -2,7 +2,6 @@
 1. `github.com/go-pg/pg`
 2. `github.com/go-pg/migrations` 
 
-
 ## Instructions
 1. You need to create database `gnippets` before running this example.
 2. `cd ./migrations && go run *.go`
