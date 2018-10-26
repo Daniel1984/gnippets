@@ -3,14 +3,19 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/go-pg/pg"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 )
 
 type User struct {
-	Id   int
-	Role string
-	Name string
+	Id   int    `json:"id"`
+	Role string `json:"role"`
+	Name string `json:"name"`
+}
+
+func forbidden(w http.ResponseWriter) {
+	http.Error(w, http.StatusText(403), http.StatusForbidden)
 }
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request, db *pg.DB) {
@@ -18,11 +23,11 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request, db *pg.DB) {
 
 	var users []User
 	if err := db.Model(&users).Select(); err != nil {
-		http.Error(w, http.StatusText(403), http.StatusForbidden)
+		forbidden(w)
 	} else {
 		json, err := json.Marshal(users)
 		if err != nil {
-			http.Error(w, http.StatusText(403), http.StatusForbidden)
+			forbidden(w)
 			return
 		}
 
@@ -34,19 +39,32 @@ func GetUserById(w http.ResponseWriter, r *http.Request, userId string, db *pg.D
 	w.Header().Set("Content-Type", "application/json")
 
 	if intUid, err := strconv.Atoi(userId); err != nil {
-		http.Error(w, http.StatusText(403), http.StatusForbidden)
+		forbidden(w)
 	} else {
 		user := &User{Id: intUid}
 		if err := db.Select(user); err != nil {
-			http.Error(w, http.StatusText(403), http.StatusForbidden)
+			forbidden(w)
 		} else {
-			json, err := json.Marshal(user)
-			if err != nil {
-				http.Error(w, http.StatusText(403), http.StatusForbidden)
-				return
+			if json, err := json.Marshal(user); err != nil {
+				forbidden(w)
+			} else {
+				w.Write(json)
 			}
+		}
+	}
+}
 
-			w.Write(json)
+func CreateUser(w http.ResponseWriter, r *http.Request, db *pg.DB) {
+	if resBody, err := ioutil.ReadAll(r.Body); err != nil {
+		forbidden(w)
+	} else {
+		user := &User{}
+		json.Unmarshal(resBody, user)
+
+		if err := db.Insert(user); err != nil {
+			forbidden(w)
+		} else {
+			w.Write([]byte("OK!"))
 		}
 	}
 }

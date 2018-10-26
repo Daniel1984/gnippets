@@ -32,6 +32,10 @@ func main() {
 		userHandler.GetAllUsers(w, r, db)
 	})
 
+	router.POST("/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+		userHandler.CreateUser(w, r, db)
+	})
+
 	router.GET("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		userHandler.GetUserById(w, r, ps.ByName("userId"), db)
 	})
