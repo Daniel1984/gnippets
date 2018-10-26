@@ -27,8 +27,13 @@ func main() {
 	}
 
 	router := httprouter.New()
-	router.GET("/", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	router.GET("/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		userHandler.GetAllUsers(w, r, db)
+	})
+
+	router.GET("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		userHandler.GetUserById(w, r, ps.ByName("userId"), db)
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", router))
