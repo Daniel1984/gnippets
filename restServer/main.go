@@ -36,6 +36,10 @@ func main() {
 		userHandler.GetUserById(w, r, ps.ByName("userId"), db)
 	})
 
+	router.DELETE("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+		userHandler.DeleteUser(w, r, ps.ByName("userId"), db)
+	})
+
 	router.POST("/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 		userHandler.CreateUser(w, r, db)
 	})

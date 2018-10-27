@@ -56,6 +56,20 @@ func GetUserById(w http.ResponseWriter, r *http.Request, userId string, db *pg.D
 	}
 }
 
+func DeleteUser(w http.ResponseWriter, r *http.Request, userId string, db *pg.DB) {
+	asJson(w)
+	if intUid, err := strconv.Atoi(userId); err != nil {
+		forbidden(w)
+	} else {
+		user := &User{Id: intUid}
+		if err := db.Delete(user); err != nil {
+			forbidden(w)
+		} else {
+			w.Write([]byte("OK!"))
+		}
+	}
+}
+
 func CreateUser(w http.ResponseWriter, r *http.Request, db *pg.DB) {
 	if resBody, err := ioutil.ReadAll(r.Body); err != nil {
 		forbidden(w)
