@@ -11,3 +11,4 @@ In real application you should add `config.json` to `.gitignore` for security re
 2. list all users: `curl localhost:8080/users`
 3. get user by id: `curl localhost:8080/users/1`
 4. patch user `curl -d '{"name":"carl shelby"}' -H "Content-Type: application/json" -X PATCH "http://localhost:8080/users/1"`
+5. delete user `curl -X DELETE "http://localhost:8080/users/:userId`
