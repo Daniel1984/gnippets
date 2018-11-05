@@ -7,20 +7,23 @@ type carDetails struct {
 	nameLength int
 }
 
-func calculateCarnamesLengths(cars [5]string, c chan carDetails) {
-	for _, car := range cars {
-		nameLength := len(car)
-		c <- carDetails{car, nameLength}
-	}
+func getCarInfoProducer(cars [5]string) <-chan carDetails {
+	carDetailsChan := make(chan carDetails)
 
-	// channel must be closed from sender, not receiver
-	close(c)
+	go func() {
+		defer close(carDetailsChan)
+		for _, car := range cars {
+			// channel must be closed from sender, not receiver
+			carDetailsChan <- carDetails{car, len(car)}
+		}
+	}()
+
+	return carDetailsChan
 }
 
 func main() {
 	cars := [5]string{"bmw", "audi", "volkswagen", "volvo", "nissan"}
-	carChan := make(chan carDetails)
-	go calculateCarnamesLengths(cars, carChan)
+	carChan := getCarInfoProducer(cars)
 
 	for carInfo := range carChan {
 		fmt.Println(carInfo)
