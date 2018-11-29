@@ -20,11 +20,9 @@ type Aircraft struct {
 func main() {
 	bmw := &Car{make: "BMW", topSpeed: 312.5}
 	audi := &Car{make: "Audi", topSpeed: 300}
-	volga := &Car{make: "Gaz", topSpeed: 90}
 	concorde := &Aircraft{make: "Concorde", topSpeed: 2405}
 	drive(audi)
 	drive(bmw)
-	drive(volga)
 	drive(concorde)
 }
 
@@ -58,7 +56,7 @@ func drive(w Wehicle) {
 	case "Concorde":
 		msg = "this is not a car"
 	default:
-		msg = "is this even a car?"
+		msg = "Can we drive this thing?"
 	}
 
 	logAction(w.getMake())
