@@ -1,14 +1,10 @@
 /*
 * The issue: you have 3rd party dependency (in this case logentries logger)
 * and you want it to output to logentries api when in production/staging or
-* development but output to standard output while dveeloping locally.
-*	One way of achieving this is to create a custom struct and interface
+* development but output to standard output while developing locally.
+*	One way to achieve this is to create a custom struct and interface
 *	where you specify most commonly used logentries methods or all of them if
-*	you'd like. newLogger method in this case check to seee if env variable was
-*	set and if connection was successful (prod/staging/development scenario) and
-*	returns logentries module instance. If any of those conditions fail it
-*	returns our custom logger that will output to standard output (local
-*	scenario)
+*	you'd like.
  */
 
 package main
@@ -19,8 +15,8 @@ import (
 	"os"
 )
 
-// we only use Println and Printf in our app but if needed all of
-// logentries methods could be replicated
+// we only use Println and Printf logentries methods in our app
+// but if needed all methods could be replicated
 type logger interface {
 	Println(...interface{})
 	Printf(string, ...interface{})
