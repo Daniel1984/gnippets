@@ -14,6 +14,6 @@ func main() {
 func hashMd5(in string) string {
 	h := md5.New()
 	h.Write([]byte(in))
-	hashed_msg := hex.EncodeToString(h.Sum(nil))
-	return hashed_msg
+	hashedMsg := hex.EncodeToString(h.Sum(nil))
+	return hashedMsg
 }
