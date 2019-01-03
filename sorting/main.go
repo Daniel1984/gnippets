@@ -29,6 +29,20 @@ func main() {
 	tracksByYear := getTracks()
 	sort.Sort(byYear(tracksByYear))
 	printTracks(tracksByYear)
+
+	sortByYearUsingSlice := getTracks()
+	sortUsingSlice(sortByYearUsingSlice)
+	printTracks(sortByYearUsingSlice)
+}
+
+func sortByYear(list []*track) func(int, int) bool {
+	return func(i, j int) bool {
+		return list[i].Year > list[j].Year
+	}
+}
+
+func sortUsingSlice(list []*track) {
+	sort.Slice(list, sortByYear(list))
 }
 
 func getTracks() []*track {
