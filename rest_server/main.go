@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	userHandler "github.com/gnippets/restServer/handlers/user"
-	"github.com/gnippets/restServer/utils"
+	handlers "github.com/gnippets/rest_server/handlers"
+	"github.com/gnippets/rest_server/utils"
 	"github.com/go-pg/pg"
 	"github.com/julienschmidt/httprouter"
 	"log"
@@ -29,23 +29,23 @@ func main() {
 	router := httprouter.New()
 
 	router.GET("/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		userHandler.GetAllUsers(w, r, db)
+		handlers.GetAllUsers(w, r, db)
 	})
 
 	router.GET("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		userHandler.GetUserById(w, r, ps.ByName("userId"), db)
+		handlers.GetUserById(w, r, ps.ByName("userId"), db)
 	})
 
 	router.DELETE("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		userHandler.DeleteUser(w, r, ps.ByName("userId"), db)
+		handlers.DeleteUser(w, r, ps.ByName("userId"), db)
 	})
 
 	router.POST("/users", func(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-		userHandler.CreateUser(w, r, db)
+		handlers.CreateUser(w, r, db)
 	})
 
 	router.PATCH("/users/:userId", func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		userHandler.PatchUser(w, r, ps.ByName("userId"), db)
+		handlers.PatchUser(w, r, ps.ByName("userId"), db)
 	})
 
 	log.Fatal(http.ListenAndServe(":8080", router))
