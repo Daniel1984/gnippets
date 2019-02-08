@@ -25,14 +25,10 @@ func (a *Values) Set(s string) error {
 func main() {
 	// Extracting flag values with methods returning pointers
 	retry := flag.Int("retry", -1, "Defines max retry count")
-	/* Read the flag using the XXXVar function.
-	* In this case the variable must be defined
-	* prior to the flag.
-	 */
 	var logPrefix string
 	flag.StringVar(&logPrefix, "prefix", "", "Logger prefix")
-	var arr Values
-	flag.Var(&arr, "array", "Input array to iterate through.")
+	arr := &Values{}
+	flag.Var(arr, "array", "Input array to iterate through.")
 	/* Execute the flag.Parse function, to
 	* read the flags to defined variables.
 	* Without this call the flag
