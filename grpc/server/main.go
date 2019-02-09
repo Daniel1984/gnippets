@@ -4,14 +4,14 @@ import (
 	"log"
 	"net"
 
-	greetpb "../greetpb"
+	"../greetpb"
 	"google.golang.org/grpc"
 )
 
 type server struct{}
 
 func main() {
-	log.Println("SERVAER")
+	log.Println("SERVER")
 	lis, err := net.Listen("tcp", "0.0.0.0:50051")
 
 	if err != nil {
