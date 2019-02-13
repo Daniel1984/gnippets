@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"bufio"
+	"bufio"
 	"fmt"
 	"io"
 	"os/exec"
@@ -20,15 +20,15 @@ func main() {
 	defer stdin.Close()
 	// For debugging purposes we watch the
 	// output of the executed process
-	//	stdout, _ := proc.StdoutPipe()
-	//	defer stdout.Close()
-	//
-	//	go func() {
-	//		s := bufio.NewScanner(stdout)
-	//		for s.Scan() {
-	//			fmt.Println("Program says:" + s.Text())
-	//		}
-	//	}()
+	stdout, _ := proc.StdoutPipe()
+	defer stdout.Close()
+
+	go func() {
+		s := bufio.NewScanner(stdout)
+		for s.Scan() {
+			fmt.Println("Program says:" + s.Text())
+		}
+	}()
 	// Start the process
 	proc.Start()
 	// Now the following lines
