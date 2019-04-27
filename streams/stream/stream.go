@@ -1,4 +1,4 @@
-package streams
+package stream
 
 type pipe struct {
 	input  chan int

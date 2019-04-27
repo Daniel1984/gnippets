@@ -4,13 +4,11 @@ import (
 	"./pipes"
 	"./stream"
 	"fmt"
+	"runtime"
 )
 
 func main() {
-	pipe1 := pipelines.NewPipe1()
-	pipe2 := pipelines.NewPipe2()
-
-	stream := stream.InitStream(pipe1, pipe2)
+	stream := stream.InitStream(&pipes.PipeOne{})
 
 	go func() {
 		stream.Receive(func(result int) {
@@ -18,4 +16,6 @@ func main() {
 		})
 	}()
 
+	stream.Send(1)
+	runtime.Goexit()
 }
