@@ -4,7 +4,6 @@ import (
 	"./pipes"
 	"./stream"
 	"fmt"
-	"runtime"
 )
 
 func main() {
@@ -17,5 +16,5 @@ func main() {
 	}()
 
 	stream.Send(1)
-	runtime.Goexit()
+	fmt.Scanln()
 }
