@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	stream := stream.InitStream(&pipes.PipeOne{})
+	stream := stream.InitStream(&pipes.PipeOne{}, &pipes.PipeTwo{})
 
 	go func() {
 		stream.Receive(func(result int) {

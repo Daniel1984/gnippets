@@ -8,6 +8,9 @@ func (p1 *PipeOne) Pipe(input chan int) chan int {
 	go func() {
 		for i := range input {
 			output <- i
+			output <- i
+			output <- i
+			output <- i
 		}
 
 		close(output)
