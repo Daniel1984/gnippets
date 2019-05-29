@@ -1,22 +1,22 @@
 package stream
 
-type stream struct {
+type Stream struct {
 	input  chan int
 	output chan int
 }
 
-func (p *stream) Send(e int) {
-	p.input <- e
+func (s *Stream) Send(e int) {
+	s.input <- e
 }
 
-func (p *stream) Receive(callback func(int)) {
-	for e := range p.output {
-		callback(e)
+func (s *Stream) Receive(callback func(int)) {
+	for transformedPayload := range s.output {
+		callback(transformedPayload)
 	}
 }
 
-func (p *stream) Close() {
-	close(p.input)
+func (s *Stream) Close() {
+	close(s.input)
 }
 
 // Pipeliner interface has only one Pipe method in this case it operates
@@ -25,7 +25,7 @@ type Pipeliner interface {
 	Pipe(input chan int) chan int
 }
 
-func InitStream(pipelines ...Pipeliner) *stream {
+func InitStream(pipelines ...Pipeliner) *Stream {
 	inputChan := make(chan int)
 	var outputChan chan int
 
@@ -41,5 +41,5 @@ func InitStream(pipelines ...Pipeliner) *stream {
 		}
 	}
 
-	return &stream{input: inputChan, output: outputChan}
+	return &Stream{input: inputChan, output: outputChan}
 }
